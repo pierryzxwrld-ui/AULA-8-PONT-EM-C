@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+int main() {
+    int vet[15];
+    int distintos[15], ocorrencias[15], primeiraPos[15], qtdDistintos = 0;
+    char animais[100][40];
+    int totalAnimais = 0;
+    int cont, cont2, achou, ehPrimo, div, somaOcor;
+
+    for (cont=0 ; cont<15 ; cont++) {
+        printf("digite o numero %d :", cont+1);
+        scanf("%d", &vet[cont]);
+    }
+
+    for (cont=0 ; cont<15 ; cont++) {
+        achou = 0;
+        for (cont2=0 ; cont2<qtdDistintos ; cont2++) {
+            if (vet[cont] == distintos[cont2]) {
+                ocorrencias[cont2]++;
+                achou = 1;
+            }
+        }
+        if (achou == 0) {
+            distintos[qtdDistintos] = vet[cont];
+            ocorrencias[qtdDistintos] = 1;
+            primeiraPos[qtdDistintos] = cont;
+            qtdDistintos++;
+        }
+    }
+
+    printf("\nnumeros repetidos (mais de 1 ocorrencia):\n");
+    for (cont=0 ; cont<qtdDistintos ; cont++) {
+        if (ocorrencias[cont] > 1) {
+            printf("numero %d: %d ocorrencias\n", distintos[cont], ocorrencias[cont]);
+        }
+    }
+
+    for (cont=0 ; cont<qtdDistintos ; cont++) {
+        if (ocorrencias[cont] > 1) {
+            ehPrimo = 1;
+            if (distintos[cont] < 2) {
+                ehPrimo = 0;
+            } else {
+                for (div=2 ; div*div<=distintos[cont] ; div++) {
+                    if (distintos[cont] % div == 0) {
+                        ehPrimo = 0;
+                    }
+                }
+            }
+
+            if (ehPrimo == 1 && ocorrencias[cont] % 2 != 0) {
+                somaOcor = ocorrencias[cont];
+                printf("\nnumero %d eh primo e tem ocorrencia impar (%d). cadastre %d animal(is):\n", distintos[cont], ocorrencias[cont], somaOcor);
+                for (cont2=0 ; cont2<somaOcor ; cont2++) {
+                    if (totalAnimais < 100) {
+                        printf("digite o nome do animal %d :", totalAnimais+1);
+                        scanf(" %[^\n]", animais[totalAnimais]);
+                        totalAnimais++;
+                    }
+                }
+            }
+        }
+    }
+
+    printf("\nresultado final:\n");
+    for (cont=0 ; cont<qtdDistintos ; cont++) {
+        if (ocorrencias[cont] > 1 && ocorrencias[cont] % 2 == 0) {
+            if (primeiraPos[cont] < totalAnimais) {
+                printf("numero %d (posicao %d): %s\n", distintos[cont], primeiraPos[cont], animais[primeiraPos[cont]]);
+            } else {
+                printf("numero %d (posicao %d): Nao existe correspondencia.\n", distintos[cont], primeiraPos[cont]);
+            }
+        }
+    }
+}
