@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+int main() {
+    int num[10];
+    int posPar[10], qtdPosPar = 0;
+    int negImpar[10], qtdNegImpar = 0;
+    int cont, cont2, aux;
+
+    for (cont=0 ; cont<10 ; cont++) {
+        printf("digite o numero %d :", cont+1);
+        scanf("%d", &num[cont]);
+        if (num[cont] > 0 && num[cont] % 2 == 0) {
+            posPar[qtdPosPar] = num[cont];
+            qtdPosPar++;
+        } else if (num[cont] < 0 && num[cont] % 2 != 0) {
+            negImpar[qtdNegImpar] = num[cont];
+            qtdNegImpar++;
+        }
+    }
+
+    for (cont=0 ; cont<qtdPosPar-1 ; cont++) {
+        for (cont2=cont+1 ; cont2<qtdPosPar ; cont2++) {
+            if (posPar[cont] > posPar[cont2]) {
+                aux = posPar[cont];
+                posPar[cont] = posPar[cont2];
+                posPar[cont2] = aux;
+            }
+        }
+    }
+
+    for (cont=0 ; cont<qtdNegImpar-1 ; cont++) {
+        for (cont2=cont+1 ; cont2<qtdNegImpar ; cont2++) {
+            if (negImpar[cont] > negImpar[cont2]) {
+                aux = negImpar[cont];
+                negImpar[cont] = negImpar[cont2];
+                negImpar[cont2] = aux;
+            }
+        }
+    }
+
+    printf("\npositivos e pares em ordem crescente:\n");
+    for (cont=0 ; cont<qtdPosPar ; cont++) {
+        printf("%d ", posPar[cont]);
+    }
+
+    printf("\nnegativos e impares em ordem crescente:\n");
+    for (cont=0 ; cont<qtdNegImpar ; cont++) {
+        printf("%d ", negImpar[cont]);
+    }
+    printf("\n");
+}
