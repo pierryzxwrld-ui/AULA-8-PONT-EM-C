@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int numeros[12];
+    int distintos[12], ocorrencias[12], qtdDistintos = 0;
+    int pares[12], qtdPares = 0;
+    char nomes[12][50], auxNome[50];
+    float precos[12], auxPreco;
+    int qtdProdutos = 0;
+    int cont, cont2, achou, aux;
+
+    for (cont=0 ; cont<12 ; cont++) {
+        printf("digite o numero %d :", cont+1);
+        scanf("%d", &numeros[cont]);
+    }
+
+    for (cont=0 ; cont<12 ; cont++) {
+        achou = 0;
+        for (cont2=0 ; cont2<qtdDistintos ; cont2++) {
+            if (numeros[cont] == distintos[cont2]) {
+                ocorrencias[cont2]++;
+                achou = 1;
+            }
+        }
+        if (achou == 0) {
+            distintos[qtdDistintos] = numeros[cont];
+            ocorrencias[qtdDistintos] = 1;
+            qtdDistintos++;
+        }
+    }
+
+    for (cont=0 ; cont<qtdDistintos ; cont++) {
+        if (ocorrencias[cont] % 2 == 0) {
+            pares[qtdPares] = distintos[cont];
+            qtdPares++;
+        } else {
+            printf("numero %d teve %d ocorrencias (impar). cadastre %d produto(s):\n", distintos[cont], ocorrencias[cont], distintos[cont]);
+            for (cont2=0 ; cont2<distintos[cont] ; cont2++) {
+                if (qtdProdutos < 12) {
+                    printf("digite o nome do produto :");
+                    scanf(" %[^\n]", nomes[qtdProdutos]);
+                    printf("digite o preco unitario :");
+                    scanf("%f", &precos[qtdProdutos]);
+                    qtdProdutos++;
+                }
+            }
+        }
+    }
+
+    for (cont=0 ; cont<qtdPares-1 ; cont++) {
+        for (cont2=cont+1 ; cont2<qtdPares ; cont2++) {
+            if (pares[cont] < pares[cont2]) {
+                aux = pares[cont];
+                pares[cont] = pares[cont2];
+                pares[cont2] = aux;
+            }
+        }
+    }
+
+    for (cont=0 ; cont<qtdProdutos-1 ; cont++) {
+        for (cont2=cont+1 ; cont2<qtdProdutos ; cont2++) {
+            if (strcmp(nomes[cont], nomes[cont2]) > 0) {
+                strcpy(auxNome, nomes[cont]);
+                strcpy(nomes[cont], nomes[cont2]);
+                strcpy(nomes[cont2], auxNome);
+
+                auxPreco = precos[cont];
+                precos[cont] = precos[cont2];
+                precos[cont2] = auxPreco;
+            }
+        }
+    }
+
+    printf("\na) 12 numeros informados:\n");
+    for (cont=0 ; cont<12 ; cont++) {
+        printf("%d ", numeros[cont]);
+    }
+
+    printf("\n\nb) numeros distintos e ocorrencias:\n");
+    for (cont=0 ; cont<qtdDistintos ; cont++) {
+        printf("numero %d: %d vez(es)\n", distintos[cont], ocorrencias[cont]);
+    }
+
+    printf("\nc) produtos cadastrados em ordem alfabetica:\n");
+    for (cont=0 ; cont<qtdProdutos ; cont++) {
+        printf("produto: %s - preco: %.2f\n", nomes[cont], precos[cont]);
+    }
+
+    printf("\nd) numeros com ocorrencias pares em ordem decrescente:\n");
+    for (cont=0 ; cont<qtdPares ; cont++) {
+        printf("%d ", pares[cont]);
+    }
+    printf("\n");
+}
